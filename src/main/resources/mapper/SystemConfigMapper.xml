@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.blmdz.wapplet.dao.SystemConfigDao">
+	<resultMap id="BaseResultMap" type="cn.blmdz.wapplet.model.entity.SystemConfig">
+		<id column="id" property="id" />
+	    <result column="type" property="type" />
+	    <result column="config" property="config" />
+		<result column="create_user" property="createUser" />
+		<result column="update_user" property="updateUser" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<sql id="cloums_all">
+		`id`, <include refid="cloums" />
+	</sql>
+
+	<sql id="cloums">
+		`type`, `config`, `create_user`, `update_user`, `create_time`, `update_time`
+	</sql>
+
+	<sql id="vals_all">
+		#{id}, <include refid="vals" />
+	</sql>
+
+	<sql id="vals">
+		#{type}, #{config}, #{createUser}, #{updateUser}, #{createTime}, #{updateTime}
+	</sql>
+
+	<sql id="tb">
+		`tb_system_config`
+	</sql>
+
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="SystemConfig">
+		insert into
+		<include refid="tb" />
+		(<include refid="cloums" />)
+		values
+		(<include refid="vals" />)
+	</insert>
+
+	<update id="update" parameterType="SystemConfig">
+		update
+	    <include refid="tb"/>
+		<set>
+		  <if test="config != null">`config` = #{config},</if>
+		  `update_user` = #{updateUser},
+		  `update_time` = #{createTime}
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
+		select
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where `id` = #{id}
+	</select>
+
+	<select id="findByType" parameterType="integer" resultMap="BaseResultMap">
+		select
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where `type` = #{type}
+	</select>
+
+</mapper>

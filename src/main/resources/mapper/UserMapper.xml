@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.blmdz.wapplet.dao.UserDao">
+	<resultMap id="BaseResultMap" type="cn.blmdz.wapplet.model.entity.User">
+		<id column="id" property="id" />
+		<result column="nick" property="nick" />
+		<result column="avatar" property="avatar" />
+		<result column="phone" property="phone" />
+        <result column="passward" property="passward" />
+        <result column="channel" property="channel" />
+        <result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+	<sql id="cloums_all">
+		`id`, <include refid="cloums" />
+	</sql>
+
+	<sql id="cloums">
+	`nick`, `avatar`, `phone`, `passward`, `channel`, `status`, `create_time`, `update_time`
+	</sql>
+
+	<sql id="vals_all">
+		#{id}, <include refid="vals" />
+	</sql>
+
+	<sql id="vals">
+		#{nick}, #{avatar}, #{phone}, #{passward}, #{channel}, #{status}, #{createTime}, #{updateTime}
+	</sql>
+
+	<sql id="tb">
+		`tb_user`
+	</sql>
+
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="User">
+		insert into
+		<include refid="tb" />
+		(<include refid="cloums" />)
+		values
+		(<include refid="vals" />)
+	</insert>
+
+	<update id="update" parameterType="User">
+		update
+	    <include refid="tb"/>
+		<set>
+		  <if test="nick != null">`nick` = #{nick},</if>
+		  <if test="avatar != null">`avatar` = #{avatar},</if>
+          <if test="status != null">`status` = #{status},</if>
+          <if test="updateUser != null">`update_user` = #{updateUser},</if>
+		  `update_time` = #{updateTime}
+		</set>
+		where `id` = #{id}
+	</update>
+
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
+		select
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where `id` = #{id}
+	</select>
+</mapper>

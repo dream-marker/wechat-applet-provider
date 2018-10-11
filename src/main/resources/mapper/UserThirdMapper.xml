@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.blmdz.wapplet.dao.UserThirdDao">
+	<resultMap id="BaseResultMap" type="cn.blmdz.wapplet.model.entity.UserThird">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="account_1" property="account_1" />
+		<result column="account_2" property="account_2" />
+        <result column="nick" property="nick" />
+        <result column="avatar" property="avatar" />
+		<result column="channel" property="channel" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+	<sql id="cloums_all">
+		`id`, <include refid="cloums" />
+	</sql>
+
+	<sql id="cloums">
+	`user_id`, `account_1`, `account_2`, `nick`, `avatar`, `channel`, `create_time`
+	</sql>
+
+	<sql id="vals_all">
+		#{id}, <include refid="vals" />
+	</sql>
+
+	<sql id="vals">
+		#{userId}, #{account_1}, #{account_2}, #{nick}, #{avatar}, #{channel}, #{createTime}
+	</sql>
+
+	<sql id="tb">
+		`tb_user_third`
+	</sql>
+
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="UserThird">
+		insert into
+		<include refid="tb" />
+		(<include refid="cloums" />)
+		values
+		(<include refid="vals" />)
+	</insert>
+
+	<select id="findById" parameterType="long" resultMap="BaseResultMap">
+		select
+		<include refid="cloums_all" />
+		from <include refid="tb" />
+		where `id` = #{id}
+	</select>
+    
+    <select id="findByAccount_1" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="cloums_all" />
+        from <include refid="tb" />
+        where `account_1` = #{account_1}
+    </select>
+    
+    <select id="findByAccount_2" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="cloums_all" />
+        from <include refid="tb" />
+        where `account_2` = #{account_2}
+    </select>
+
+    <select id="findByUserId" parameterType="long" resultMap="BaseResultMap">
+        select
+        <include refid="cloums_all" />
+        from <include refid="tb" />
+        where `user_id` = #{userId}
+    </select>
+</mapper>
