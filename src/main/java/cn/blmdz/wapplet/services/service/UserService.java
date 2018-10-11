@@ -9,7 +9,7 @@ import cn.blmdz.wapplet.dao.UserDao;
 import cn.blmdz.wapplet.dao.UserThirdDao;
 import cn.blmdz.wapplet.model.entity.User;
 import cn.blmdz.wapplet.model.entity.UserThird;
-import cn.blmdz.wapplet.model.enums.TableEnumChannelUserThird;
+import cn.blmdz.wapplet.model.enums.TableEnumUserThirdChannel;
 
 @Service
 public class UserService {
@@ -31,7 +31,7 @@ public class UserService {
         baseUser.setAccount_1(userThird.getAccount_1());
         baseUser.setAccount_2(userThird.getAccount_2());
         baseUser.setGender(user.getGender());
-        baseUser.setChannel(TableEnumChannelUserThird.conversion(userThird.getChannel()));
+        baseUser.setChannel(TableEnumUserThirdChannel.conversion(userThird.getChannel()));
         
         return baseUser;
     }

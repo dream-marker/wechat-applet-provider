@@ -1,0 +1,44 @@
+##################
+### jsp set
+##################
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dream_marker?autoReconnect=true&amp;useUnicode=true&amp;charaterEncoding=utf-8
+    username: root
+    password: root
+  http:
+    multipart:
+      maxFileSize: 20Mb
+      maxRequestSize: 20Mb
+  
+##################
+### log set
+##################
+logging:
+  file: /var/log/spring-boot.log
+  level.*: INFO
+  level.cn.blmdz: DEBUG
+  
+##################
+### server set
+##################
+server:
+  context-path: /
+  port: 8083
+  session:
+    timeout: 1800
+    
+##################
+### mybatis set
+##################
+mybatis:
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  typeAliasesPackage: cn.blmdz.wapplet.model
+  
+##################
+### other set
+##################
+other:
+  devMode: true

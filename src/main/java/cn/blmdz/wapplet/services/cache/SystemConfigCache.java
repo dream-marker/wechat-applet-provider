@@ -13,8 +13,8 @@ import com.google.common.cache.LoadingCache;
 
 import cn.blmdz.wapplet.dao.SystemConfigDao;
 import cn.blmdz.wapplet.model.entity.SystemConfig;
-import cn.blmdz.wapplet.model.enums.TableEnumChannelUserThird;
-import cn.blmdz.wapplet.model.enums.TableEnumTypeSystemConfig;
+import cn.blmdz.wapplet.model.enums.TableEnumUserThirdChannel;
+import cn.blmdz.wapplet.model.enums.TableEnumSystemConfigType;
 import cn.blmdz.wapplet.model.sysconfig.WechatAppletConfig;
 import cn.blmdz.wapplet.util.JsonMapper;
 
@@ -23,23 +23,23 @@ public class SystemConfigCache {
 	
 	private @Autowired SystemConfigDao systemConfigDao;
 
-	private final LoadingCache<TableEnumTypeSystemConfig, Optional<SystemConfig>> systemConfigs;
+	private final LoadingCache<TableEnumSystemConfigType, Optional<SystemConfig>> systemConfigs;
 
 	public SystemConfigCache() {
 		systemConfigs = CacheBuilder.newBuilder()
 				.expireAfterWrite(20, TimeUnit.MINUTES)
-				.build(new CacheLoader<TableEnumTypeSystemConfig, Optional<SystemConfig>>(){
+				.build(new CacheLoader<TableEnumSystemConfigType, Optional<SystemConfig>>(){
 					@Override
-					public Optional<SystemConfig> load(TableEnumTypeSystemConfig key) throws Exception {
+					public Optional<SystemConfig> load(TableEnumSystemConfigType key) throws Exception {
 						
 						return Optional.fromNullable(systemConfigDao.findByType(key.code()));
 					}
 		});
 	}
 	
-	public WechatAppletConfig getWechatAppletConfig(TableEnumChannelUserThird type) {
+	public WechatAppletConfig getWechatAppletConfig(TableEnumUserThirdChannel type) {
 	    
-		String config = getType(TableEnumTypeSystemConfig.conversion(Integer.parseInt(String.valueOf(1000) + String.valueOf(type.code()))));
+		String config = getType(TableEnumSystemConfigType.conversion(100 + type.code()));
 		if (StringUtils.isNotBlank(config)) {
 			return JsonMapper.nonDefaultMapper().fromJson(config, WechatAppletConfig.class);
 		}
@@ -47,12 +47,12 @@ public class SystemConfigCache {
 	}
 	
 	public void refresh() {
-        for (TableEnumTypeSystemConfig type : TableEnumTypeSystemConfig.values()) {
+        for (TableEnumSystemConfigType type : TableEnumSystemConfigType.values()) {
             systemConfigs.refresh(type);
         }
 	}
 	
-	private String getType(TableEnumTypeSystemConfig type) {
+	private String getType(TableEnumSystemConfigType type) {
 		Optional<SystemConfig> optional = systemConfigs.getUnchecked(type);
 		
 		if (optional.isPresent()) return optional.get().getConfig();

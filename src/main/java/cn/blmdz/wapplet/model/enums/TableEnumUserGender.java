@@ -3,14 +3,14 @@ package cn.blmdz.wapplet.model.enums;
 import com.google.common.base.Objects;
 
 /**
- * 枚举 - 第三方用户绑定表
- * @channel 渠道
  * @author xpoll
  */
-public enum TableEnumChannelUserThird {
+public enum TableEnumUserGender {
 
 
-    WECHAT_APPLET_1(1, "微信-小程序-1"),// 微信小程序
+    UNKNOWN(-1, "未设置"),
+    MALE(1, "男"),
+    FEMALE(2, "女"),
     
     ;
 
@@ -26,13 +26,13 @@ public enum TableEnumChannelUserThird {
         return description;
     }
 
-    private TableEnumChannelUserThird(int code, String description) {
+    private TableEnumUserGender(int code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    public static TableEnumChannelUserThird conversion(int code) {
-        for (TableEnumChannelUserThird item : TableEnumChannelUserThird.values()) {
+    public static TableEnumUserGender conversion(int code) {
+        for (TableEnumUserGender item : TableEnumUserGender.values()) {
             if (Objects.equal(item.code, code)) return item;
         }
         return null;

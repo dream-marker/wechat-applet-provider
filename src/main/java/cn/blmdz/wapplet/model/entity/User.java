@@ -21,7 +21,7 @@ public class User implements Serializable {
     private Date birthday;
     /** 区域 */
     private Integer area;
-    /** 注册渠道-TableEnumChannelUserThird */
+    /** 注册渠道-TableEnumUserThirdChannel */
     private Integer channel;
     /** 系统状态 */
     private Integer status;

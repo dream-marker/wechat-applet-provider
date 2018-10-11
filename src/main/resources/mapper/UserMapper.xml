@@ -5,8 +5,9 @@
 		<id column="id" property="id" />
 		<result column="nick" property="nick" />
 		<result column="avatar" property="avatar" />
-		<result column="phone" property="phone" />
-        <result column="passward" property="passward" />
+		<result column="gender" property="gender" />
+        <result column="birthday" property="birthday" />
+        <result column="area" property="area" />
         <result column="channel" property="channel" />
         <result column="status" property="status" />
 		<result column="create_time" property="createTime" />
@@ -18,7 +19,7 @@
 	</sql>
 
 	<sql id="cloums">
-	`nick`, `avatar`, `phone`, `passward`, `channel`, `status`, `create_time`, `update_time`
+		`nick`, `avatar`, `gender`, `birthday`, `area`, `channel`, `status`, `create_time`, `update_time`
 	</sql>
 
 	<sql id="vals_all">
@@ -26,7 +27,7 @@
 	</sql>
 
 	<sql id="vals">
-		#{nick}, #{avatar}, #{phone}, #{passward}, #{channel}, #{status}, #{createTime}, #{updateTime}
+		#{nick}, #{avatar}, #{gender}, #{birthday}, #{area}, #{channel}, #{status}, #{createTime}, #{updateTime}
 	</sql>
 
 	<sql id="tb">
@@ -47,8 +48,10 @@
 		<set>
 		  <if test="nick != null">`nick` = #{nick},</if>
 		  <if test="avatar != null">`avatar` = #{avatar},</if>
+		  <if test="gender != null">`gender` = #{gender},</if>
+		  <if test="birthday != null">`birthday` = #{birthday},</if>
+		  <if test="area != null">`area` = #{area},</if>
           <if test="status != null">`status` = #{status},</if>
-          <if test="updateUser != null">`update_user` = #{updateUser},</if>
 		  `update_time` = #{updateTime}
 		</set>
 		where `id` = #{id}

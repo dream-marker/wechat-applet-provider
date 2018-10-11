@@ -5,10 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("cn.blmdz.home.dao")
-public class HomesteadApplication {
+@MapperScan("cn.blmdz.wapplet.dao")
+public class WechatAppletProviderApplication {
     
 	public static void main(String[] args) {
-	    SpringApplication.run(HomesteadApplication.class, args);
+	    SpringApplication.run(WechatAppletProviderApplication.class, args);
 	}
 }

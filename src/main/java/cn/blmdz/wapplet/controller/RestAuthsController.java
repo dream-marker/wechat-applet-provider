@@ -20,7 +20,7 @@ import cn.blmdz.wapplet.enums.EnumsError;
 import cn.blmdz.wapplet.model.applet.WechatAppletSessionKeyRequest;
 import cn.blmdz.wapplet.model.applet.WechatAppletSessionKeyResponse;
 import cn.blmdz.wapplet.model.applet.WechatAppletUserInfoResponse;
-import cn.blmdz.wapplet.model.enums.TableEnumChannelUserThird;
+import cn.blmdz.wapplet.model.enums.TableEnumUserThirdChannel;
 import cn.blmdz.wapplet.model.sysconfig.WechatAppletConfig;
 import cn.blmdz.wapplet.services.cache.SystemConfigCache;
 import cn.blmdz.wapplet.services.manager.UserRecognitionManager;
@@ -50,7 +50,7 @@ public class RestAuthsController {
      * @param encryptedData
      * @return
      */
-    @RequestMapping(value="auth", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_VALUE)
     public Response<BaseUser> auth(HttpServletRequest request,
     		@RequestParam("code") String code,
     		@RequestParam("iv") String iv,
@@ -63,12 +63,13 @@ public class RestAuthsController {
         if (StringUtils.isBlank(code)) return Response.error(EnumsError.ERROR_000002);
 
         if (channel == null) return Response.error(EnumsError.ERROR_000002);
-        TableEnumChannelUserThird channelThird = TableEnumChannelUserThird.conversion(channel);
+        TableEnumUserThirdChannel channelThird = TableEnumUserThirdChannel.conversion(channel);
         if (channelThird == null) return Response.error(EnumsError.ERROR_000004);
         
         
         WechatAppletConfig config = configCache.getWechatAppletConfig(channelThird);
-        HttpRequest reqSession = HttpRequest.get("https://api.weixin.qq.com/sns/jscode2session",
+        HttpRequest reqSession = HttpRequest.get(
+        		"https://api.weixin.qq.com/sns/jscode2session",
                 new WechatAppletSessionKeyRequest(
                         config.getAppId(),
                         config.getAppSecret(),
@@ -100,12 +101,13 @@ public class RestAuthsController {
      * @param encryptedData
      * @return
      */
-    private BaseUser decryptToUser(String key, String iv, String encryptedData, TableEnumChannelUserThird channel) {
+    private BaseUser decryptToUser(String key, String iv, String encryptedData, TableEnumUserThirdChannel channel) {
         WechatAppletUserInfoResponse response = decrypt(key, iv, encryptedData);
         if (response == null) return null;
         BaseUser baseUser = new BaseUser();
         baseUser.setAccount_1(response.getUnionId());
         baseUser.setAccount_2(response.getOpenId());
+        baseUser.setGender(response.getGender());
         baseUser.setNick(response.getNickName());
         baseUser.setAvatar(response.getAvatarUrl());
         baseUser.setChannel(channel);

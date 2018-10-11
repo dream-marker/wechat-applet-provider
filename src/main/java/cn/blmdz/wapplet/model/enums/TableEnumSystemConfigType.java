@@ -5,9 +5,9 @@ package cn.blmdz.wapplet.model.enums;
  * @type 类型
  * @author xpoll
  */
-public enum TableEnumTypeSystemConfig {
+public enum TableEnumSystemConfigType {
 	
-    WECHAT_APPLET_1(10001, "微信小程序"),// TableEnumChannelUserThird 前面加1000
+    WECHAT_APPLET_1(101, "微信小程序"),// TableEnumChannelUserThird 前面加10
     ;
     
 	
@@ -21,13 +21,13 @@ public enum TableEnumTypeSystemConfig {
     	return description;
     }
 	
-	TableEnumTypeSystemConfig(int code, String description) {
+	TableEnumSystemConfigType(int code, String description) {
 		this.code = code;
 		this.description = description;
 	}
 	
-	public static TableEnumTypeSystemConfig conversion(int code) {
-		for (TableEnumTypeSystemConfig type : TableEnumTypeSystemConfig.values()) {
+	public static TableEnumSystemConfigType conversion(int code) {
+		for (TableEnumSystemConfigType type : TableEnumSystemConfigType.values()) {
 			if (type.code == code)
 				return type;
 		}

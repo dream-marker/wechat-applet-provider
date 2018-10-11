@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import cn.blmdz.wapplet.base.BaseUser;
 import cn.blmdz.wapplet.dao.UserThirdDao;
 import cn.blmdz.wapplet.model.entity.User;
 import cn.blmdz.wapplet.model.entity.UserThird;
-import cn.blmdz.wapplet.model.enums.TableEnumStatusUser;
+import cn.blmdz.wapplet.model.enums.TableEnumUserStatus;
 
 @Component
 public class UserRecognitionManager {
@@ -23,7 +22,6 @@ public class UserRecognitionManager {
     /**
      * 用户认证识别
      */
-    @Transactional
     public BaseUser recognition(BaseUser baseUser) {
         List<UserThird> userThirds = userThirdDao.findByAccount_1(baseUser.getAccount_1());
 
@@ -38,12 +36,11 @@ public class UserRecognitionManager {
             user.setBirthday(calendar.getTime());
             user.setArea(-1);
             user.setChannel(baseUser.getChannel().code());
-            user.setStatus(TableEnumStatusUser.NORMAL.code());
+            user.setStatus(TableEnumUserStatus.NORMAL.code());
             user.setCreateTime(calendar.getTime());
             user.setUpdateTime(calendar.getTime());
 
             UserThird userThird = new UserThird();
-            userThird.setUserId(-1L);
             userThird.setAccount_1(baseUser.getAccount_1());
             userThird.setAccount_2(baseUser.getAccount_2());
             userThird.setNick(baseUser.getNick());

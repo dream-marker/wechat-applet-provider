@@ -19,6 +19,7 @@ public class WappletTransactionalManagerImpl implements WappletTransactionalMana
     @Transactional
     public void createUser(User user, UserThird userThird) {
         userDao.create(user);
+        userThird.setUserId(user.getId());
         userThirdDao.create(userThird);
     }
 

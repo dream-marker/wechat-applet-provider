@@ -2,7 +2,7 @@ package cn.blmdz.wapplet.model.enums;
 
 import com.google.common.base.Objects;
 
-public enum TableEnumStatusUser {
+public enum TableEnumUserStatus {
     NORMAL(1, "正常"),
     FREEZE(2, "冻结"),
     ;
@@ -18,13 +18,13 @@ public enum TableEnumStatusUser {
         return description;
     }
 	
-    TableEnumStatusUser(int code, String description) {
+    TableEnumUserStatus(int code, String description) {
 		this.code = code;
 		this.description = description;
 	}
 	
-	public static TableEnumStatusUser conversion(int code) {
-		for (TableEnumStatusUser item : TableEnumStatusUser.values()) {
+	public static TableEnumUserStatus conversion(int code) {
+		for (TableEnumUserStatus item : TableEnumUserStatus.values()) {
 			if (Objects.equal(item.code, code)) return item;
 		}
 		return null;
