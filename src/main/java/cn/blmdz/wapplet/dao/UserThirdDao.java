@@ -22,4 +22,9 @@ public interface UserThirdDao extends BaseDao<UserThird> {
      * 根据用户ID查找
      */
     List<UserThird> findByUserId(@Param("userId") Long userId);
+    
+    /**
+     * 根据渠道数量统计
+     */
+    int channelCount(@Param("channel") Integer channel);
 }

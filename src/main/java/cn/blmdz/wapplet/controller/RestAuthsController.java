@@ -57,7 +57,7 @@ public class RestAuthsController {
     		@RequestParam("encryptedData") String encryptedData,
     		@RequestParam("need") Boolean need,
     		@RequestParam("channel") Integer channel) {
-        BaseUser baseUser = UserUtil.getBaseUser(request);
+        BaseUser baseUser = UserUtil.getBaseUserUnCheck(request);
         if (!need && baseUser != null) return Response.build(baseUser);
         
         if (StringUtils.isBlank(code)) return Response.error(EnumsError.ERROR_000002);

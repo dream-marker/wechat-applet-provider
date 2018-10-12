@@ -7,7 +7,7 @@ import com.google.common.base.Objects;
  */
 public enum TableEnumUserArea {
 
-	AREA_0(-1, "??", "??"),
+	AREA_0(0, "??", "??"),
 	AREA_1(1, "京", "北京"),
 	AREA_2(2, "津", "天津"),
 	AREA_3(3, "冀", "河北"),

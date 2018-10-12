@@ -9,6 +9,7 @@ public enum EnumsError {
     ERROR_000005(5, "未登录"),
 
     ERROR_000101(101, "用户信息解密异常"),
+    ERROR_000102(102, "用户识别异常"),
     
     
 	ERROR_000000(0, "success"),

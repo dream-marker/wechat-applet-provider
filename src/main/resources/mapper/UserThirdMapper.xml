@@ -67,4 +67,12 @@
         from <include refid="tb" />
         where `user_id` = #{userId}
     </select>
+
+    <select id="channelCount" parameterType="int" resultType="Integer">
+        select count(0)
+        from <include refid="tb" />
+        where `channel` = #{channel}
+    </select>
+    
+    
 </mapper>
