@@ -22,4 +22,7 @@ public class BaseUser {
     private String account_2;
     /** 渠道 */
     private TableEnumUserThirdChannel channel;
+    
+    /** 用作session */
+    private String session;
 }

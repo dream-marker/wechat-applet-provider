@@ -43,6 +43,7 @@ public class UserUtil {
      * 用户设置
      */
     public static BaseUser setBaseUser(HttpServletRequest request, BaseUser baseUser) {
+    	baseUser.setSession(request.getSession().getId());
         request.getSession().setAttribute(USER_SESSION_REQUEST, baseUser);
         return baseUser;
     }
