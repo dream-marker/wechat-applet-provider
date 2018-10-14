@@ -10,6 +10,8 @@ public enum TableEnumUserThirdChannel {
 
 
     WECHAT_APPLET_COMMUNITY(1, true, Type.COMMUNITY, "微信-小程序-社区"),
+    WECHAT_GAME_XPOLL(2, true, Type.GAME, "Xpoll的游戏乐园"),
+    
     
     ;
 

@@ -14,6 +14,11 @@ spring:
     multipart:
       maxFileSize: 20Mb
       maxRequestSize: 20Mb
+  jackson:
+    serialization:
+    serialization-inclusion: non_null
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+08
   
 ##################
 ### log set
@@ -37,7 +42,7 @@ server:
 ##################
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
-  typeAliasesPackage: cn.blmdz.wapplet.model
+  typeAliasesPackage: cn.blmdz.wapplet.model.entity
   
 ##################
 ### other set

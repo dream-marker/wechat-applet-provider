@@ -31,7 +31,7 @@
 		`tb_system_config`
 	</sql>
 
-	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="SystemConfig">
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.SystemConfig">
 		insert into
 		<include refid="tb" />
 		(<include refid="cloums" />)
@@ -39,7 +39,7 @@
 		(<include refid="vals" />)
 	</insert>
 
-	<update id="update" parameterType="SystemConfig">
+	<update id="update" parameterType="cn.blmdz.wapplet.model.entity.SystemConfig">
 		update
 	    <include refid="tb"/>
 		<set>

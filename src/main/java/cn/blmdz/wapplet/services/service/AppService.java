@@ -31,13 +31,14 @@ public class AppService {
                     WechatAppletConfig config = configCache.getWechatAppletConfig(item);
                     WechatAppletVo app = new WechatAppletVo();
                     app.setId(item.code());
+                    app.setAppId(config.getAppId());
                     app.setTypeEnum(item.type());
                     app.setShowName(config.getShowName());
                     app.setShowImage(config.getShowImage());
                     app.setShowOrder(config.getShowOrder());
                     app.setAd(StringUtils.isNotBlank(config.getAdImage()));
                     app.setAdImage(StringUtils.defaultIfBlank(config.getAdImage(), null));
-                    app.setArouse(StringUtils.isNotBlank(config.getArouseUrl()));
+                    app.setArouse(config.getArouse());
                     app.setArouseUrl(StringUtils.defaultIfBlank(config.getArouseUrl(), null));
                     app.setPeople(userThirdCache.getAppPeopleCount(item));
                     return app;

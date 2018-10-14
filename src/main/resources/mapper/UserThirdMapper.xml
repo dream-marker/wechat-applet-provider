@@ -32,7 +32,7 @@
 		`tb_user_third`
 	</sql>
 
-	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="UserThird">
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.UserThird">
 		insert into
 		<include refid="tb" />
 		(<include refid="cloums" />)

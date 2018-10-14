@@ -11,6 +11,7 @@ import cn.blmdz.wapplet.base.BaseUser;
 import cn.blmdz.wapplet.dao.UserThirdDao;
 import cn.blmdz.wapplet.model.entity.User;
 import cn.blmdz.wapplet.model.entity.UserThird;
+import cn.blmdz.wapplet.model.enums.TableEnumUserArea;
 import cn.blmdz.wapplet.model.enums.TableEnumUserStatus;
 
 @Component
@@ -34,7 +35,7 @@ public class UserRecognitionManager {
             user.setAvatar(baseUser.getAvatar());
             user.setGender(baseUser.getGender());
             user.setBirthday(calendar.getTime());
-            user.setArea(-1);
+            user.setArea(TableEnumUserArea.AREA_0.code());
             user.setChannel(baseUser.getChannel().code());
             user.setStatus(TableEnumUserStatus.NORMAL.code());
             user.setCreateTime(calendar.getTime());

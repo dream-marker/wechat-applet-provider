@@ -22,6 +22,10 @@ public class WechatAppletConfig {
      */
     private String adImage;
     /**
+     * 是否可以唤起
+     */
+    private Boolean arouse;
+    /**
      * 唤起地址
      */
     private String arouseUrl;

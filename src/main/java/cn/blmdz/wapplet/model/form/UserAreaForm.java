@@ -14,7 +14,7 @@ public class UserAreaForm implements Serializable {
 
     /** 区域 */
     @NotNull(message = "表单参数不正确")
-    @Min(value = 1, message = "表单参数不正确")
+    @Min(value = 0, message = "表单参数不正确")
     @Max(value = 34, message = "表单参数不正确")
     private Integer area;
 

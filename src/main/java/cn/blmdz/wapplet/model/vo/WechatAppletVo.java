@@ -17,6 +17,11 @@ public class WechatAppletVo implements Serializable {
      * 应用ID
      */
     private Integer id;
+    
+    /**
+     * appId
+     */
+    private String appId;
     /**
      * 应用类型
      */

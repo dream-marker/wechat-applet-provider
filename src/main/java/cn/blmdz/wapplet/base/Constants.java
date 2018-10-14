@@ -11,7 +11,7 @@ public class Constants {
 	//############################  [配置]  ###################################
 
 	//############################  [时间]  ###################################
-	public final static String TIMEZONE = "GMT+08:00";
+	public final static String TIMEZONE = "Asia/Shanghai"; // GMT+08:00 因为有1990-09-11差一天的问题（有的好的）
 	public final static String YHS = "yyyyMMddHHmmss.SSS";
 	public final static String YH = "yyyy-MM-dd HH:mm:ss";
 	public final static String Y = "yyyy-MM-dd";

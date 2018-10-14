@@ -27,7 +27,7 @@
 		`tb_image`
 	</sql>
 
-	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="Image">
+	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.Image">
 		insert into
 		<include refid="tb" />
 		(<include refid="cloums" />)
