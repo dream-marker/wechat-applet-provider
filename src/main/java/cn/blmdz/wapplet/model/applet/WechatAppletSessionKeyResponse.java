@@ -9,4 +9,5 @@ public class WechatAppletSessionKeyResponse extends WechatBaseResponse {
     private String session_key;
     private Integer expires_in;
     private String openid;
+    private String unionid;
 }
