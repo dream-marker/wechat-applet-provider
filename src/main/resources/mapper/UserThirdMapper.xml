@@ -29,7 +29,7 @@
 	</sql>
 
 	<sql id="tb">
-		`tb_user_third`
+		`tb_basic_user_third`
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.UserThird">

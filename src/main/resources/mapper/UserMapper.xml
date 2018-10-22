@@ -31,7 +31,7 @@
 	</sql>
 
 	<sql id="tb">
-		`tb_user`
+		`tb_basic_user`
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.User">

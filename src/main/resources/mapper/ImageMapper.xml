@@ -24,7 +24,7 @@
 	</sql>
 
 	<sql id="tb">
-		`tb_image`
+		`tb_basic_image`
 	</sql>
 
 	<insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="cn.blmdz.wapplet.model.entity.Image">
