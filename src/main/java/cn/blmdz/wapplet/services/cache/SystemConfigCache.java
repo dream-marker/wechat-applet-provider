@@ -15,6 +15,7 @@ import cn.blmdz.wapplet.dao.SystemConfigDao;
 import cn.blmdz.wapplet.model.entity.SystemConfig;
 import cn.blmdz.wapplet.model.enums.TableEnumUserThirdChannel;
 import cn.blmdz.wapplet.model.enums.TableEnumSystemConfigType;
+import cn.blmdz.wapplet.model.sysconfig.HeweatcherConfig;
 import cn.blmdz.wapplet.model.sysconfig.WechatAppletConfig;
 import cn.blmdz.wapplet.util.JsonMapper;
 
@@ -44,6 +45,15 @@ public class SystemConfigCache {
 			return JsonMapper.nonDefaultMapper().fromJson(config, WechatAppletConfig.class);
 		}
 		return null;
+	}
+	
+	public HeweatcherConfig getHeweatcherConfig(TableEnumSystemConfigType type) {
+	    String config = getType(type);
+
+        if (StringUtils.isNotBlank(config)) {
+            return JsonMapper.nonDefaultMapper().fromJson(config, HeweatcherConfig.class);
+        }
+        return null;
 	}
 	
 	public void refresh() {

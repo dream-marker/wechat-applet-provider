@@ -9,6 +9,8 @@ public enum TableEnumSystemConfigType {
 
     WECHAT_APPLET_1(101, "微信小程序"),// TableEnumChannelUserThird 前面加10
     WECHAT_GANME_2(102, "微信小游戏"),// TableEnumChannelUserThird 前面加10
+    
+    HE_WEATHER(1, "和风天气")
     ;
     
 	
