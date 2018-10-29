@@ -1,4 +1,4 @@
-package cn.blmdz.wapplet.enums.sdk;
+package cn.blmdz.wapplet.model.sdk.weather.enums;
 
 public enum EnumsHeweather {
 

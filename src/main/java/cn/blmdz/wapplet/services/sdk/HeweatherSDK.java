@@ -15,8 +15,8 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 
-import cn.blmdz.wapplet.enums.sdk.EnumsHeweather;
 import cn.blmdz.wapplet.model.enums.TableEnumSystemConfigType;
+import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweather;
 import cn.blmdz.wapplet.model.sysconfig.HeweatcherConfig;
 import cn.blmdz.wapplet.services.cache.SystemConfigCache;
 import lombok.Setter;
