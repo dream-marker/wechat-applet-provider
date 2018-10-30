@@ -2,6 +2,7 @@ package cn.blmdz.wapplet.model.sdk.weather.vo;
 
 import java.util.List;
 
+import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweatherInspirationalQuotes;
 import lombok.Data;
 
 @Data
@@ -17,4 +18,6 @@ public class WeatherVo {
 	private List<WeatherDailyVo> daily;
 	/** 生活指数 */
 	private List<WeatherLifeStyleVo> life;
+	/** 励志名言 */
+	private String insp = EnumsHeweatherInspirationalQuotes.selectOne();
 }

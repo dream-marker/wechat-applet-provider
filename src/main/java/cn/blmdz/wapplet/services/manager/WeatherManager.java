@@ -1,5 +1,6 @@
 package cn.blmdz.wapplet.services.manager;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 
+import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweatherCodeIcon;
+import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweatherLifeStyle;
 import cn.blmdz.wapplet.model.sdk.weather.vo.WeatherAirVo;
 import cn.blmdz.wapplet.model.sdk.weather.vo.WeatherCurrentVo;
 import cn.blmdz.wapplet.model.sdk.weather.vo.WeatherDailyDetailVo;
@@ -21,23 +24,38 @@ import cn.blmdz.wapplet.services.sdk.HeweatherSDK;
 public class WeatherManager {
 	private @Autowired HeweatherSDK sdk;
 	
+	private static Boolean isDay(String sr, String ss) {
+		Calendar calendar = Calendar.getInstance();
+		String time = calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+		
+		return time.compareTo(sr) >= 0 && time.compareTo(ss) < 0;
+	}
+	
 	public WeatherVo weather(String location) {
 		JSONObject weatherObj = sdk.s6Weather(location);
 		if (weatherObj == null) return null;
 		
 		JSONObject jsonObj = null;
+		EnumsHeweatherCodeIcon icon = null;
+		EnumsHeweatherLifeStyle ls = null;
+		Boolean day = null;
 		
 		WeatherVo weather = new WeatherVo();
 		
 		/** ####当天天气#### */
 		WeatherCurrentVo current = new WeatherCurrentVo();
+		day = isDay(
+				weatherObj.getJSONArray("daily_forecast").getJSONObject(0).getString("sr"),
+				weatherObj.getJSONArray("daily_forecast").getJSONObject(0).getString("ss")
+				);
+		icon = EnumsHeweatherCodeIcon.conversion(Integer.parseInt(weatherObj.getJSONObject("now").getString("cond_code")));
 		
 		/** 背景图 */
-//		current.setBgImg(bgImg);
+		current.setBgImg(day ? icon.dayBg() : icon.nightBg());
 		/** 背景色 */
-//		current.setBgColor(bgColor);
+		current.setBgColor(day ? icon.dayBgColor() : icon.nightBgColor());
 		/** 图标 */
-//		current.setIcon(icon);
+		current.setIcon(day ? icon.dayIcon() : icon.nightIcon());
 		/** 温度 */
 		current.setTemp(Integer.parseInt(weatherObj.getJSONObject("now").getString("fl")));
 		/** 湿度 */
@@ -45,7 +63,7 @@ public class WeatherManager {
 		/** 天气 */
 		current.setWeather(weatherObj.getJSONObject("now").getString("cond_txt"));
 		/** 风向 */
-		current.setWind(weatherObj.getJSONObject("now").getString("wind_spd"));
+		current.setWind(weatherObj.getJSONObject("now").getString("wind_dir"));
 		/** 风力等级 */
 		current.setWindLevel(weatherObj.getJSONObject("now").getString("wind_sc"));
 		/** 天气更新时间 */
@@ -59,10 +77,11 @@ public class WeatherManager {
 		for (int i = 0; i < weatherObj.getJSONArray("hourly").size(); i++) {
 			jsonObj = weatherObj.getJSONArray("hourly").getJSONObject(i);
 			hourlyVo = new WeatherHourlyVo();
+			icon = EnumsHeweatherCodeIcon.conversion(Integer.parseInt(jsonObj.getString("cond_code")));
 			/** 温度 */
 			hourlyVo.setTemp(Integer.parseInt(jsonObj.getString("tmp")));
 			/** 图标 */
-//			hourlyVo.setIcon(icon);
+			hourlyVo.setIcon(day ? icon.dayIcon() : icon.nightIcon());
 			/** 天气 */
 			hourlyVo.setWeather(jsonObj.getString("cond_txt"));
 			/** 时间 */
@@ -82,20 +101,22 @@ public class WeatherManager {
 			dailyDetailVo = new WeatherDailyDetailVo();
 
 			/** 白天 */
+			icon = EnumsHeweatherCodeIcon.conversion(Integer.parseInt(jsonObj.getString("cond_code_d")));
 			/** 温度 */
 			dailyDetailVo.setTemp(Integer.parseInt(jsonObj.getString("tmp_max")));
 			/** 图标 */
-//			dailyDetailVo.setIcon(icon);
+			dailyDetailVo.setIcon(icon.dayIcon());
 			/** 天气 */
 			dailyDetailVo.setWeather(jsonObj.getString("cond_txt_d"));
 			dailyVo.setDay(dailyDetailVo);
 			
 			dailyDetailVo = new WeatherDailyDetailVo();
 			/** 夜里 */
+			icon = EnumsHeweatherCodeIcon.conversion(Integer.parseInt(jsonObj.getString("cond_code_n")));
 			/** 温度 */
 			dailyDetailVo.setTemp(Integer.parseInt(jsonObj.getString("tmp_min")));
 			/** 图标 */
-//			dailyDetailVo.setIcon(icon);
+			dailyDetailVo.setIcon(icon.nightIcon());
 			/** 天气 */
 			dailyDetailVo.setWeather(jsonObj.getString("cond_txt_n"));
 			dailyVo.setNight(dailyDetailVo);
@@ -118,11 +139,11 @@ public class WeatherManager {
 		for (int i = 0; i < weatherObj.getJSONArray("lifestyle").size(); i++) {
 			jsonObj = weatherObj.getJSONArray("lifestyle").getJSONObject(i);
 			lifeVo = new WeatherLifeStyleVo();
-			
+			ls = EnumsHeweatherLifeStyle.conversion(jsonObj.getString("type"));
 			/** 显示名称 */
-//			lifeVo.setName(name);
+			lifeVo.setName(ls.description());
 			/** 图标 */
-//			lifeVo.setIcon(icon);
+			lifeVo.setIcon(ls.icon());
 			/** 内容 */
 			lifeVo.setInfo(jsonObj.getString("brf"));
 			/** 详情 */
@@ -132,8 +153,8 @@ public class WeatherManager {
 		}
 		
 		weather.setLife(life);
-
-		JSONObject airObj = sdk.s6Air(location);
+		
+		JSONObject airObj = sdk.s6Air(weatherObj.getJSONObject("basic").getString("parent_city"));
 		
 		if (airObj == null) return weather;
 		
@@ -145,7 +166,19 @@ public class WeatherManager {
 		/** 数值 */
 		air.setNum(Integer.parseInt(airObj.getJSONObject("air_now_city").getString("pm25")));
 		/** 颜色 */
-//		air.setColor(color);
+		int aqi = Integer.parseInt(airObj.getJSONObject("air_now_city").getString("aqi"));
+		if (aqi < 50)
+			air.setColor("#00cf9a");
+		else if (aqi < 100)
+			air.setColor("#00cf9a");
+		else if (aqi < 150)
+			air.setColor("#00cf9a");
+		else if (aqi < 200)
+			air.setColor("#4295f4");
+		else if (aqi < 300)
+			air.setColor("#4295f4");
+		else
+			air.setColor("#ff6600");
 		
 		weather.setAir(air);
 		

@@ -1,6 +1,8 @@
 package cn.blmdz.wapplet.services.sdk;
 
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -12,11 +14,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 
 import cn.blmdz.wapplet.model.enums.TableEnumSystemConfigType;
-import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweather;
+import cn.blmdz.wapplet.model.sdk.weather.enums.EnumsHeweatherError;
 import cn.blmdz.wapplet.model.sysconfig.HeweatcherConfig;
 import cn.blmdz.wapplet.services.cache.SystemConfigCache;
 import lombok.Setter;
@@ -29,7 +32,7 @@ public class HeweatherSDK {
     @Setter
     private HeweatcherConfig config;
     private static final String URL_WEATHER = "https://free-api.heweather.com/s6/weather";
-    private static final String URL_AIR ="https://api.heweather.com/s6/air";
+    private static final String URL_AIR ="https://free-api.heweather.com/s6/air/now";
     
     @Autowired
     public HeweatherSDK (SystemConfigCache systemConfigCache) {
@@ -46,7 +49,8 @@ public class HeweatherSDK {
         return weather(URL_AIR, location);
     }
     
-    private JSONObject weather(String url, String location) {
+    @SuppressWarnings("deprecation")
+	private JSONObject weather(String url, String location) {
         Map<String, String> maps = Maps.newHashMap();
         maps.put("location", location);
         maps.put("unit", "m");
@@ -54,14 +58,21 @@ public class HeweatherSDK {
         maps.put("username", config.getUser());
         maps.put("t", String.valueOf(System.currentTimeMillis()/1000));
         maps.put("sign", getSign(maps, config.getKey()));
-        HttpRequest request = HttpRequest.post(url).form(maps);
+        
+        List<String> params = Lists.newArrayList();
+        for (String key : maps.keySet()) {
+        	params.add(key + "=" + URLEncoder.encode(maps.get(key)));
+		}
+        System.out.println(url + "?" + Joiner.on("&").join(params));
+        HttpRequest request = HttpRequest.get(url + "?" + Joiner.on("&").join(params));
         if (request.ok()) {
             String response = request.body();
             JSONObject obj = JSON.parseObject(response);
             if (obj == null) return null;
             if (obj.getJSONArray("HeWeather6") == null || obj.getJSONArray("HeWeather6").size() == 0 || obj.getJSONArray("HeWeather6").getJSONObject(0) == null) return null;
             
-            return EnumsHeweather.OK.code().equals(obj.getJSONArray("HeWeather6").getJSONObject(0).getString("status")) ? obj.getJSONArray("HeWeather6").getJSONObject(0) : null;
+            System.out.println(obj.getJSONArray("HeWeather6").getJSONObject(0).toString());
+            return EnumsHeweatherError.OK.code().equals(obj.getJSONArray("HeWeather6").getJSONObject(0).getString("status")) ? obj.getJSONArray("HeWeather6").getJSONObject(0) : null;
         }
         return null;
     }

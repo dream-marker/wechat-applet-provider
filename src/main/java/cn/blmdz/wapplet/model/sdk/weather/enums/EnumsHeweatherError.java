@@ -1,6 +1,6 @@
 package cn.blmdz.wapplet.model.sdk.weather.enums;
 
-public enum EnumsHeweather {
+public enum EnumsHeweatherError {
 
     OK("ok", "成功"), 
     ANR("anr", "服务器内部错误"), 
@@ -33,7 +33,7 @@ public enum EnumsHeweather {
     	return description;
     }
 	
-	EnumsHeweather(String code, String description) {
+	EnumsHeweatherError(String code, String description) {
 		this.code = code;
 		this.description = description;
 	}
