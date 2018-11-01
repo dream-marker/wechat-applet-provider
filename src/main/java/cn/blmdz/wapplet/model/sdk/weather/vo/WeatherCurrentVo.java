@@ -22,4 +22,8 @@ public class WeatherCurrentVo {
 	private String windLevel;
 	/** 天气更新时间 */
 	private String updateTime;
+	/** 场景类型 */
+	private Integer scenesType;
+	/** 场景等级 */
+	private Integer scenesLevel;
 }

@@ -68,6 +68,10 @@ public class WeatherManager {
 		current.setWindLevel(weatherObj.getJSONObject("now").getString("wind_sc"));
 		/** 天气更新时间 */
 		current.setUpdateTime(weatherObj.getJSONObject("update").getString("loc"));
+		/** 场景类型 */
+		current.setScenesType(icon.scenesType().code());
+		/** 场景等级 */
+		current.setScenesLevel(icon.scenesLevel());
 		
 		weather.setCurrent(current);
 		
@@ -164,7 +168,7 @@ public class WeatherManager {
 		/** 显示名称 */
 		air.setName(airObj.getJSONObject("air_now_city").getString("qlty"));
 		/** 数值 */
-		air.setNum(Integer.parseInt(airObj.getJSONObject("air_now_city").getString("pm25")));
+		air.setNum(Integer.parseInt(airObj.getJSONObject("air_now_city").getString("aqi")));
 		/** 颜色 */
 		int aqi = Integer.parseInt(airObj.getJSONObject("air_now_city").getString("aqi"));
 		if (aqi < 50)
