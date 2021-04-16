@@ -4,13 +4,11 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.blmdz.wapplet.model.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.kevinsawicki.http.HttpRequest;
 
@@ -91,6 +89,24 @@ public class RestAuthsController {
         } else {
             log.error("jscode2session error.");
         }
+        return Response.build(baseUser);
+    }
+
+    @PostMapping("/info")
+    public Response<BaseUser> info(HttpServletRequest request,
+                                        @RequestParam("gender") Integer gender,
+                                        @RequestParam("avatar") String avatar,
+                                        @RequestParam("nick") String nick) {
+        BaseUser baseUser = UserUtil.getBaseUser(request);
+        baseUser.setAvatar(avatar);
+        baseUser.setNick(nick);
+        baseUser.setGender(gender);
+        User user = new User();
+        user.setId(baseUser.getUserId());
+        user.setAvatar(avatar);
+        user.setNick(nick);
+        user.setGender(gender);
+        userService.updateUser(user);
         return Response.build(baseUser);
     }
 
