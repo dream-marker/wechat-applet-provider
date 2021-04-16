@@ -5,6 +5,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 import javax.servlet.http.HttpServletRequest;
 
 import cn.blmdz.wapplet.model.entity.User;
+import cn.blmdz.wapplet.model.enums.TableEnumUserGender;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,6 +28,8 @@ import cn.blmdz.wapplet.util.AESUtil;
 import cn.blmdz.wapplet.util.JsonMapper;
 import cn.blmdz.wapplet.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Objects;
 
 /**
  * 微信小程序用户识别
@@ -127,6 +130,10 @@ public class RestAuthsController {
         baseUser.setNick(response.getNickName());
         baseUser.setAvatar(response.getAvatarUrl());
         baseUser.setChannel(channel);
+
+        if (Objects.isNull(TableEnumUserGender.conversion(baseUser.getGender()))) {
+            baseUser.setGender(TableEnumUserGender.UNKNOWN.code());
+        }
         
         return userRecognitionManager.recognition(baseUser);
     }
